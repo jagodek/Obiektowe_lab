@@ -1,5 +1,7 @@
 package agh.ics.oop;
 import java.util.Map;
+import java.util.*;
+
 
 import static java.lang.System.out;
 
@@ -13,69 +15,8 @@ public class World {
     }
 
 
-    public static class Vector2d{
-        public int x;
-        public int y;
-        public Vector2d(int x ,int y){
-            this.x = x;
-            this.y = y;
-        }
 
-        public String toString() {
-            return "(" + x +","+y + ')';
-        }
-        public boolean precedes(Vector2d other){
-            return (other.x>=this.x)&&(other.y>=this.y);
-        }
-        public boolean follows(Vector2d other){
-            return (other.x<=this.x)&&(other.y<=this.y);
-        }
-        public Vector2d upperRight(Vector2d other){
-            if((other.x>=this.x)&&(other.y>=this.y)){
-                return other;
-            }
-            else if((other.x<=this.x)&&(other.y>=this.y)){
-                return new Vector2d(this.x,other.y);
-            }
-            else if((other.x>=this.x)&&(other.y<=this.y)) {
-                return new Vector2d(other.x, this.y);
-            }
-            else{
-                return this;
-            }
-        }
-        public Vector2d lowerLeft(Vector2d other){
-            if((other.x<=this.x)&&(other.y<=this.y)){
-                return other;
-            }
-            else if((other.x<=this.x)&&(other.y>=this.y)){
-                return new Vector2d(other.x,this.y);
-            }
-            else if((other.x>=this.x)&&(other.y<=this.y)) {
-                return new Vector2d(this.x, other.y);
-            }
-            else{
-                return this;
-            }
-        }
-        public Vector2d add(Vector2d other){
-            return new Vector2d(this.x+other.x,this.y+other.y);
-        }
-        public Vector2d substract(Vector2d other){
-            return new Vector2d(this.x-other.x,this.y-other.y);
-        }
-        public boolean equals(Object other){
-            if (this == other) {
-                return true;
-            }
-            else {
-                return false;
-            }
-        }
-        public Vector2d opposite(){
-            return new Vector2d(this.x*(-1),this.y*(-1));
-        }
-    }
+
 
     public static void run(Direction.Directions[] instrukcje) {
         out.println("Zwierzak idzie do przodu");
@@ -105,11 +46,15 @@ public class World {
         Vector2d position2 = new Vector2d(-2,1);
         out.println(position2);
         out.println(position1.add(position2));
-        MapDirection.MapDirection a = MapDirection.MapDirection.NORTH;
+        MapDirection a = MapDirection.NORTH;
         out.println(a.next());
         out.println(a.previous());
         out.println(a.toUnitVector());
         out.println(a.toString());
+        Vector2d position3 = new Vector2d(1,2);
+        out.println(position1.hashCode());
+        out.println(position3.hashCode());
+        out.println(position1.equals(position3));
     }
 }
 
