@@ -7,30 +7,19 @@ import static java.lang.System.out;
 
 public class World {
 
-    enum MoveDirection{
-        FORWARD,
-        BACKWARD,
-        RIGHT,
-        LEFT;
-    }
-
-
-
-
-
-    public static void run(Direction.Directions[] instrukcje) {
+    public static void run(MoveDirection[] instrukcje) {
         out.println("Zwierzak idzie do przodu");
-        for (Direction.Directions argument : instrukcje) {
-            if (argument == Direction.Directions.FORWARD) {
+        for (MoveDirection argument : instrukcje) {
+            if (argument == MoveDirection.FORWARD) {
                 out.println("Do przodu");
             }
-            else if (argument ==Direction.Directions.BACKWARD) {
+            else if (argument ==MoveDirection.BACKWARD) {
                 out.println("Do tyłu");
             }
-            else if (argument == Direction.Directions.LEFT) {
+            else if (argument == MoveDirection.LEFT) {
                 out.println("W lewo");
             }
-            else if (argument == Direction.Directions.RIGHT) {
+            else if (argument == MoveDirection.RIGHT) {
                 out.println("W prawo");
             }
         }
@@ -38,7 +27,7 @@ public class World {
 
     public static void main(String[] args) {
         out.println("Start");
-        Direction.Directions[] i = {Direction.Directions.BACKWARD, Direction.Directions.FORWARD};
+        MoveDirection[] i = {MoveDirection.BACKWARD, MoveDirection.FORWARD};
         run(i);
         out.println("Stop");
         Vector2d position1 = new Vector2d(1,2);
@@ -50,11 +39,18 @@ public class World {
         out.println(a.next());
         out.println(a.previous());
         out.println(a.toUnitVector());
-        out.println(a.toString());
+        out.println(a);
         Vector2d position3 = new Vector2d(1,2);
         out.println(position1.hashCode());
         out.println(position3.hashCode());
         out.println(position1.equals(position3));
+        Animal piesek = new Animal();
+        out.println(piesek);
+        piesek.move(MoveDirection.RIGHT);
+        piesek.move(MoveDirection.FORWARD);
+        piesek.move(MoveDirection.FORWARD);
+        piesek.move(MoveDirection.FORWARD);
+        out.println(piesek);
     }
 }
 

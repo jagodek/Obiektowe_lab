@@ -1,8 +1,8 @@
 package agh.ics.oop;
 
 public class Vector2d {
-    public int x;
-    public int y;
+    public final int x;
+    public final int y;
     public Vector2d(int x ,int y){
         this.x = x;
         this.y = y;
@@ -21,15 +21,13 @@ public class Vector2d {
         if((other.x>=this.x)&&(other.y>=this.y)){
             return other;
         }
-        else if((other.x<=this.x)&&(other.y>=this.y)){
+        if((other.x<=this.x)&&(other.y>=this.y)){
             return new Vector2d(this.x,other.y);
         }
-        else if((other.x>=this.x)&&(other.y<=this.y)) {
+        if((other.x>=this.x)&&(other.y<=this.y)) {
             return new Vector2d(other.x, this.y);
         }
-        else{
             return this;
-        }
     }
     public Vector2d lowerLeft(Vector2d other){
         if((other.x<=this.x)&&(other.y<=this.y)){
@@ -48,7 +46,7 @@ public class Vector2d {
     public Vector2d add(Vector2d other){
         return new Vector2d(this.x+other.x,this.y+other.y);
     }
-    public Vector2d substract(Vector2d other){
+    public Vector2d subtract(Vector2d other){
         return new Vector2d(this.x-other.x,this.y-other.y);
     }
     public boolean equals(Object other) {
