@@ -3,6 +3,7 @@ import java.util.Map;
 import java.util.*;
 
 
+import static java.lang.System.in;
 import static java.lang.System.out;
 
 public class World {
@@ -50,6 +51,13 @@ public class World {
         piesek.move(MoveDirection.FORWARD);
         piesek.move(MoveDirection.FORWARD);
         piesek.move(MoveDirection.FORWARD);
+        out.println(piesek);
+        OptionParsers instrukcje1 = new OptionParsers();
+        String[] instrukcje2 = {"r","r","f","f","f","f","l","f","f"};
+        MoveDirection[] instrukcje3 = instrukcje1.parse(instrukcje2);
+        for(MoveDirection dirr : instrukcje3){
+            piesek.move(dirr);
+        }
         out.println(piesek);
     }
 }

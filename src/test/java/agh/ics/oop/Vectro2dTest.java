@@ -5,16 +5,14 @@ import org.junit.jupiter.api.Test;
 public class Vectro2dTest {
     @Test
     public void equalsTest(){
-        assertTrue(true);
         Vector2d v1 = new Vector2d(1,6);
         Vector2d v2 = new Vector2d(-2,-2);
-        assertEquals(v1.equals(v2),false);
+        assertFalse(v1.equals(v2));
         v2 = new Vector2d(1,6);
-        assertEquals(v1.equals(v2),true);
+        assertTrue(v1.equals(v2));
     }
     @Test
     public void toStringTest() {
-        assertTrue(true);
         Vector2d a = new Vector2d(1, 2);
         String s = a.toString();
         Object s2 = (Object) s;
@@ -25,7 +23,6 @@ public class Vectro2dTest {
 
     @Test
     public void addTest(){
-        assertTrue(true);
         Vector2d v1 = new Vector2d(1,6);
         Vector2d v2 = new Vector2d(-2,-2);
         Vector2d v3 = v1.add(v2);
@@ -33,7 +30,6 @@ public class Vectro2dTest {
     }
     @Test
     public void subtract(){
-        assertTrue(true);
         Vector2d v1 = new Vector2d(1,2);
         Vector2d v2 = new Vector2d(1,2);
         assertEquals(v1.subtract(v2),new Vector2d(0,0));
@@ -44,33 +40,30 @@ public class Vectro2dTest {
     }
     @Test
     public void testFollows(){
-        assertTrue(true);
         Vector2d v1 = new Vector2d(1,1);
         Vector2d v2 = new Vector2d(0,0);
         Vector2d v3 = new Vector2d(0,2);
         Vector2d v4 = new Vector2d(2,0);
         Vector2d v5 = new Vector2d(2,2);
-        assertEquals(v1.follows(v2),true);
-        assertEquals(v1.follows(v3),false);
-        assertEquals(v1.follows(v4),false);
-        assertEquals(v1.follows(v5),false);
+        assertTrue(v1.follows(v2));
+        assertFalse(v1.follows(v3));
+        assertFalse(v1.follows(v4));
+        assertFalse(v1.follows(v5));
     }
     @Test
     public void testPrecedes(){
-        assertTrue(true);
         Vector2d v1 = new Vector2d(1,1);
         Vector2d v2 = new Vector2d(0,0);
         Vector2d v3 = new Vector2d(0,2);
         Vector2d v4 = new Vector2d(2,0);
         Vector2d v5 = new Vector2d(2,2);
-        assertEquals(v1.precedes(v2),false);
-        assertEquals(v1.precedes(v3),false);
-        assertEquals(v1.precedes(v4),false);
-        assertEquals(v1.precedes(v5),true);
+        assertFalse(v1.precedes(v2));
+        assertFalse(v1.precedes(v3));
+        assertFalse(v1.precedes(v4));
+        assertTrue(v1.precedes(v5));
     }
     @Test
     public void upperRightTest(){
-        assertTrue(true);
         Vector2d v1 = new Vector2d(2,2);
         Vector2d v2 = new Vector2d(1,6);
         Vector2d v3 = new Vector2d(6,8);
@@ -84,7 +77,6 @@ public class Vectro2dTest {
 
     @Test
     public void lowerLeftTest(){
-        assertTrue(true);
         Vector2d v1 = new Vector2d(2,2);
         Vector2d v2 = new Vector2d(1,6);
         Vector2d v3 = new Vector2d(6,8);
@@ -97,7 +89,6 @@ public class Vectro2dTest {
     }
     @Test
     public void oppositeTest(){
-        assertTrue(true);
         Vector2d v1 = new Vector2d(3,3);
         assertEquals(v1.opposite(),new Vector2d(-3,-3));
         v1 = new Vector2d(-1,-65);
