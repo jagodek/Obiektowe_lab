@@ -7,7 +7,7 @@ import java.util.LinkedList;
 public class Animal{
     private MapDirection direction;
     private Vector2d position;
-    private RectangularMap map;
+    private IWorldMap map;
 
     public Animal(){
         this.direction = MapDirection.NORTH;
@@ -15,16 +15,13 @@ public class Animal{
     }
 
     public Animal(IWorldMap map){
-        this.map = (RectangularMap) map;
+        this.map = map;
     }
 
     public Animal(IWorldMap map, Vector2d initialPosition){
-        this.map = (RectangularMap) map;
+        this.map = map;
         this.position = initialPosition;
         this.direction = MapDirection.NORTH;
-        ArrayList<Animal> animals = this.map.getAnimals();
-        animals.add(this);
-        this.map.setAnimals(animals);
     }
 
 

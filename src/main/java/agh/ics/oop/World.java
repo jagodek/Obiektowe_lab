@@ -59,6 +59,7 @@ public class World {
             piesek.move(dirr);
         }
         out.println(piesek);
+
         // args =f b r l f f r r f f f f f f f f
         MoveDirection[] directions = new OptionsParser().parse(args);
         out.println(directions);
@@ -67,6 +68,10 @@ public class World {
         IEngine engine = new SimulationEngine(directions, map, positions);
         engine.run();
         out.println(map);
+
+
+
+
     }
 }
 

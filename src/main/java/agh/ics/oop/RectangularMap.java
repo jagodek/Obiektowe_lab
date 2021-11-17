@@ -5,6 +5,7 @@ public class RectangularMap implements IWorldMap{
     private ArrayList<Animal> animals = new ArrayList<>();
     private int width,height;
 
+
     public RectangularMap(int width,int height){
         this.width = width-1;
         this.height = height-1;
@@ -15,13 +16,7 @@ public class RectangularMap implements IWorldMap{
         String draw = mapa.draw(new Vector2d(0,0),new Vector2d(width,height));
         return draw;
     }
-    public ArrayList getAnimals(){
-        return animals;
-    }
 
-    public void setAnimals(ArrayList<Animal> animals) {
-        this.animals = animals;
-    }
 
     @Override
     public boolean canMoveTo(Vector2d position) {
@@ -33,8 +28,10 @@ public class RectangularMap implements IWorldMap{
 
     @Override
     public boolean place(Animal animal) {
-        if(animals.contains(animal))
+        if(!(this.isOccupied(animal.getPosition()))) {
+            animals.add(animal);
             return true;
+        }
         return false;
     }
 
