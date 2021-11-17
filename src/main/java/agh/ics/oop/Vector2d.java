@@ -67,6 +67,14 @@ public class Vector2d {
 
     }
 
+    public int getX() {
+        return x;
+    }
+
+    public int getY() {
+        return y;
+    }
+
     public Vector2d opposite(){
         return new Vector2d(this.x*(-1),this.y*(-1));
     }

@@ -52,13 +52,21 @@ public class World {
         piesek.move(MoveDirection.FORWARD);
         piesek.move(MoveDirection.FORWARD);
         out.println(piesek);
-        OptionParsers instrukcje1 = new OptionParsers();
+        OptionsParser instrukcje1 = new OptionsParser();
         String[] instrukcje2 = {"r","r","f","f","f","f","l","f","f"};
         MoveDirection[] instrukcje3 = instrukcje1.parse(instrukcje2);
         for(MoveDirection dirr : instrukcje3){
             piesek.move(dirr);
         }
         out.println(piesek);
+        // args =f b r l f f r r f f f f f f f f
+        MoveDirection[] directions = new OptionsParser().parse(args);
+        out.println(directions);
+        IWorldMap map = new RectangularMap(10, 5);
+        Vector2d[] positions = { new Vector2d(2,2), new Vector2d(3,4) };
+        IEngine engine = new SimulationEngine(directions, map, positions);
+        engine.run();
+        out.println(map);
     }
 }
 

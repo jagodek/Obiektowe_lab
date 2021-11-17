@@ -2,82 +2,74 @@ package agh.ics.oop;
 import static java.lang.System.out;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 
-public class Animal {
-    private MapDirection a_direction= MapDirection.NORTH;
-    private Vector2d a_position = new Vector2d(2,2);
+public class Animal{
+    private MapDirection direction;
+    private Vector2d position;
+    private RectangularMap map;
 
-    private ArrayList<Animal> list = new ArrayList<Animal>(); // lista która przechowuje wsszystkie utworzone instancje klasy Animal
     public Animal(){
-        list.add(this);
+        this.direction = MapDirection.NORTH;
+        this.position = new Vector2d(2,2);
     }
 
-    public String toString(){
-        return "(" + a_position.x + "," +  a_position.y + "," + a_direction + ")";
+    public Animal(IWorldMap map){
+        this.map = (RectangularMap) map;
     }
+
+    public Animal(IWorldMap map, Vector2d initialPosition){
+        this.map = (RectangularMap) map;
+        this.position = initialPosition;
+        this.direction = MapDirection.NORTH;
+        ArrayList<Animal> animals = this.map.getAnimals();
+        animals.add(this);
+        this.map.setAnimals(animals);
+    }
+
+
+    public String toString() {
+        switch(direction){
+            case NORTH: return "N";
+            case EAST: return "E";
+            case SOUTH: return "S";
+            case WEST: return "W";
+        }
+        return null;
+    }
+
     public Boolean isAt(Vector2d position){
-        return a_position.x == position.x && a_position.y == position.y;
+        return position.x == this.position.x && position.y == this.position.y;
     }
-    public void move(MoveDirection move_dir){
-        switch (move_dir){
-            case LEFT:
-                a_direction = a_direction.previous();
-                break;
-            case RIGHT:
-                a_direction = a_direction.next();
-                break;
-            case FORWARD:
-                switch (a_direction){
-                    case NORTH:
-                        a_position = a_position.add(new Vector2d(0,1));
-                        break;
-                    case EAST:
-                        a_position = a_position.add(new Vector2d(1,0));
-                        break;
-                    case SOUTH:
-                        a_position = a_position.add(new Vector2d(0,-1));
-                        break;
-                    case WEST:
-                        a_position = a_position.add(new Vector2d(-1,0));
-                        break;
-                }
-                break;
-            case BACKWARD:
-                switch (a_direction){
-                    case NORTH:
-                        a_position = a_position.add(new Vector2d(0,-1));
-                        break;
-                    case EAST:
-                        a_position = a_position.add(new Vector2d(-1,0));
-                        break;
-                    case SOUTH:
-                        a_position = a_position.add(new Vector2d(0,1));
-                        break;
-                    case WEST:
-                        a_position = a_position.add(new Vector2d(1,0));
-                        break;
-                }
-                break;
-        }
-        if(a_position.x>4){
-            a_position =a_position.subtract(new Vector2d(1,0));
-        }
-        if(a_position.y>4){
-            a_position =a_position.subtract(new Vector2d(0,1));
-        }
-        if(a_position.x<0){
-            a_position = a_position.add(new Vector2d(1,0));
-        }
-        if(a_position.y<0){
-            a_position =a_position.add(new Vector2d(0,1));
-        }
-        for(Animal an : list){
-            if(!an.equals(this)){
-                this.move(MoveDirection.BACKWARD);
-                out.println("Pole jest zajęte");
-                break;
+    public void move(MoveDirection dir){
+        Vector2d nowaPozycja = position;
+        if(dir==MoveDirection.LEFT)
+            direction = direction.previous();
+        else if (dir==MoveDirection.RIGHT)
+            direction = direction.next();
+        else {
+            if (dir==MoveDirection.FORWARD)
+                nowaPozycja = position.add(direction.toUnitVector());
+            else if (dir==MoveDirection.BACKWARD)
+                nowaPozycja = position.subtract(direction.toUnitVector());
+
+            if(map!=null&&map.canMoveTo(nowaPozycja)){
+                position = nowaPozycja;
+            }
+
+            else if(map==null&&(nowaPozycja.follows(new Vector2d(0,0))&&nowaPozycja.precedes(new Vector2d(4,4)))){
+                position = nowaPozycja;
             }
         }
+
+    }
+
+    public Vector2d getPosition() {
+        return position;
+    }
+
+    public MapDirection getDirection() {
+        return direction;
     }
 
 }
