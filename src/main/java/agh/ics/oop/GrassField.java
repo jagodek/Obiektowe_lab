@@ -3,10 +3,9 @@ import java.util.Random;
 import java.lang.Math.*;
 import java.util.ArrayList;
 
-public class GrassField implements IWorldMap{
+public class GrassField extends AbstractWorldMap implements IWorldMap {
     private int noGrass;
-    private ArrayList<Grass> grasses;
-    private ArrayList<Animal> animals;
+
     GrassField(int noGrass){
         this.noGrass = noGrass;
         Random random = new Random();
@@ -15,46 +14,39 @@ public class GrassField implements IWorldMap{
         while(i<noGrass)
         {
             newGrass = new Vector2d(random.nextInt((int) Math.sqrt(noGrass*10)),random.nextInt((int) Math.sqrt(noGrass*10)));
-            if(!(objectAt(newGrass) instanceof Grass)){
+            if(objectAt(newGrass) == null){
                 grasses.add(new Grass(newGrass));
                 i++;
             }
         }
     }
+
+    /**public String toString(){
+        MapVisualizer mapa = new MapVisualizer(this);
+        Vector2d prawyGorny = new Vector2d(0,0);
+        Vector2d lewyDolny  = new Vector2d(0,0);
+        for(Grass grass: grasses){
+            prawyGorny = prawyGorny.upperRight(grass.getPosition());
+            lewyDolny = lewyDolny.lowerLeft(grass.getPosition());
+        }
+        for(Animal animal:animals){
+            prawyGorny = prawyGorny.upperRight(animal.getPosition());
+            lewyDolny = lewyDolny.lowerLeft(animal.getPosition());
+        }
+
+        String draw = mapa.draw(lewyDolny,prawyGorny);
+        return draw;
+    }*/
+
     @Override
     public boolean canMoveTo(Vector2d position) {
-        if(isOccupied(position))
+        if(isOccupied(position)&&(objectAt(position) instanceof Animal))
             return false;
         return true;
     }
 
-    @Override
-    public boolean place(Animal animal) {
-        animals.add(animal);
-        if(animals.contains(animal))
-            return true;
-        return false;
-    }
 
-    @Override
-    public boolean isOccupied(Vector2d position) {
-        for(Animal animal:animals){
-            if(animal.getPosition().equals(position))
-                return true;
-        }
-        return false;
-    }
 
-    @Override
-    public Object objectAt(Vector2d position) {
-        for(Animal animal : animals) {
-            if(animal.getPosition().equals(position))
-                return animal;
-        }
-        for(Grass grass : grasses) {
-            if(grass.getPosition().equals(position))
-                return grass;
-        }
-        return null;
-    }
+
+
 }
