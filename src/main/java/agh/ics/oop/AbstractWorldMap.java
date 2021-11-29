@@ -3,12 +3,12 @@ package agh.ics.oop;
 import java.util.ArrayList;
 
 abstract class AbstractWorldMap implements IWorldMap{
-    protected int width,height;
+    protected int width,height; // szerokość GrassField to 2*maksymalna wartość inta + 1
     protected ArrayList<Animal> animals = new ArrayList<>();
-    protected ArrayList<Grass> grasses = new ArrayList<>();
+    protected ArrayList<Grass> grasses = new ArrayList<>(); // czy to jest część wspólna wszystkich map?
 
 
-    public String toString(){
+    public String toString(){   // to zdecydowanie nie jest template method
         if(this instanceof RectangularMap)
             return toStringRectangle();
         if(this instanceof GrassField)
@@ -18,7 +18,7 @@ abstract class AbstractWorldMap implements IWorldMap{
 
 
     private String toStringGrass(){
-            MapVisualizer mapa = new MapVisualizer(this);
+            MapVisualizer mapa = new MapVisualizer(this);   // nowy obiekt przy każdym wywołaniu
             Vector2d prawyGorny = new Vector2d(0,0);
             Vector2d lewyDolny  = new Vector2d(0,0);
             for(Grass grass: grasses){
@@ -36,7 +36,7 @@ abstract class AbstractWorldMap implements IWorldMap{
 
     private String toStringRectangle(){
         MapVisualizer mapaR = new MapVisualizer(this);
-        String draw = mapaR.draw(new Vector2d(0,0),new Vector2d(width,height));
+        String draw = mapaR.draw(new Vector2d(0,0),new Vector2d(width,height)); // width - 1 // nowy wektor przy każdym wywołaniu
         return draw;
     }
 
