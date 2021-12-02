@@ -1,79 +1,65 @@
 package agh.ics.oop;
 
+import java.awt.image.AbstractMultiResolutionImage;
+import java.util.Map;
+import java.util.LinkedHashMap;
 import java.util.ArrayList;
+import java.util.Vector;
 
-abstract class AbstractWorldMap implements IWorldMap{
+abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObserver{
     protected int width,height;
-    protected ArrayList<Animal> animals = new ArrayList<>();
-    protected ArrayList<Grass> grasses = new ArrayList<>();
+    protected Map<Vector2d, Animal> animals = new LinkedHashMap<>();
+    protected  Map<Vector2d, Grass> grasses = new LinkedHashMap<>();
+    protected MapBoundary boundary = new MapBoundary();
+
 
 
     public String toString(){
-        if(this instanceof RectangularMap)
-            return toStringRectangle();
-        if(this instanceof GrassField)
-            return toStringGrass();
-        return "  ";
+        MapVisualizer mapa = new MapVisualizer(this);
+        Vector2d[] rogi = corners();
+        return mapa.draw(rogi[0],rogi[1]);
+
+    }
+
+    public Vector2d[] corners(){
+        return null;
     }
 
 
-    private String toStringGrass(){
-            MapVisualizer mapa = new MapVisualizer(this);
-            Vector2d prawyGorny = new Vector2d(0,0);
-            Vector2d lewyDolny  = new Vector2d(0,0);
-            for(Grass grass: grasses){
-                prawyGorny = prawyGorny.upperRight(grass.getPosition());
-                lewyDolny = lewyDolny.lowerLeft(grass.getPosition());
-            }
-            for(Animal animal:animals){
-                prawyGorny = prawyGorny.upperRight(animal.getPosition());
-                lewyDolny = lewyDolny.lowerLeft(animal.getPosition());
-            }
-
-            String draw = mapa.draw(lewyDolny,prawyGorny);
-            return draw;
-    }
-
-    private String toStringRectangle(){
-        MapVisualizer mapaR = new MapVisualizer(this);
-        String draw = mapaR.draw(new Vector2d(0,0),new Vector2d(width,height));
-        return draw;
-    }
 
     public boolean place(Animal animal) {
-        for(Animal a: animals){
-            if(a.getPosition().equals(animal.getPosition())){
-                return false;
-            }
+        Vector2d pos = animal.getPosition();
+        if(animals.containsKey(pos)){
+            throw new IllegalArgumentException("brak możliwości dodania zwierzęcia na tą pozycję");
         }
-        animals.add(animal);
+        animals.put(pos,animal);
+        animal.addObserver(this);
         return true;
     }
 
     @Override
     public boolean isOccupied(Vector2d position) {
-        for(Animal animal:animals){
-            if(animal.getPosition().equals(position))
+        if(animals.containsKey(position))
                 return true;
-        }
-        for(Grass grass : grasses) {
-            if(grass.getPosition().equals(position))
-                return true;
-        }
         return false;
+
     }
 
     @Override
     public Object objectAt(Vector2d position) {
-        for(Animal animal : animals) {
-            if(animal.getPosition().equals(position))
-                return animal;
-        }
-        for(Grass grass : grasses) {
-            if(grass.getPosition().equals(position))
-                return grass;
-        }
+        if(isOccupied(position))
+                return animals.get(position);
         return null;
     }
+
+    @Override
+    public void positionChanged(Vector2d oldPosition, Vector2d newPosition){
+        Animal animal = animals.get(oldPosition);
+        boundary.positionChanged(oldPosition,newPosition);
+        animals.remove(oldPosition);
+        animals.put(newPosition,animal);
+        boundary.addElement(animal);
+    }
+
 
 }

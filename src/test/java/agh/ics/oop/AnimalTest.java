@@ -7,7 +7,8 @@ import org.junit.jupiter.api.Test;
 public class AnimalTest {
     @Test
     public void theTest(){
-        Animal cat = new Animal();
+        IWorldMap test1 = new RectangularMap(5,5);
+        Animal cat = new Animal(test1);
         assertEquals(new Vector2d(2,2),cat.getPosition());
         assertEquals(MapDirection.NORTH,cat.getDirection());
         cat.move(MoveDirection.RIGHT);

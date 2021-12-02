@@ -1,12 +1,20 @@
 package agh.ics.oop;
+import java.util.Arrays;
 
 public class OptionsParser {
     public MoveDirection[] parse(String[] litery){
+
+        String[] acceptable = {"f","forward","r","right","b","backward","l","left"};
+
+        for(String i:litery){
+            if(!Arrays.asList(acceptable).contains(i))
+                throw new IllegalArgumentException(i + " is illegal");
+        }
+
         MoveDirection[] output = new MoveDirection[litery.length];
         int k =0;
         for(String i : litery){
-            String iUp = i.toLowerCase();
-            switch(iUp){
+            switch(i){
                 case "f": case "forward":
                     output[k] = MoveDirection.FORWARD;
                     k++;
@@ -23,7 +31,6 @@ public class OptionsParser {
                     output[k] = MoveDirection.LEFT;
                     k++;
                     break;
-
             }
 
         }

@@ -4,18 +4,16 @@ import static java.lang.System.out;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-public class Animal{
+public class Animal implements IMapElement{
     private MapDirection direction;
     private Vector2d position;
     private IWorldMap map;
+    private ArrayList<IPositionChangeObserver> observers = new ArrayList();
 
-    public Animal(){
-        this.direction = MapDirection.NORTH;
-        this.position = new Vector2d(2,2);
-    }
+
 
     public Animal(IWorldMap map){
-        this.map = map;
+        this(map,new Vector2d(2,2));
     }
 
     public Animal(IWorldMap map, Vector2d initialPosition){
@@ -50,23 +48,37 @@ public class Animal{
             else if (dir==MoveDirection.BACKWARD)
                 nowaPozycja = position.subtract(direction.toUnitVector());
 
-            if(map!=null&&map.canMoveTo(nowaPozycja)){
+            if(map.canMoveTo(nowaPozycja)){
+                Vector2d staraPozycja = position;
                 position = nowaPozycja;
+                positionChanged(staraPozycja,position);
             }
 
-            else if(map==null&&(nowaPozycja.follows(new Vector2d(0,0))&&nowaPozycja.precedes(new Vector2d(4,4)))){
-                position = nowaPozycja;
-            }
+
         }
 
     }
-
+    @Override
     public Vector2d getPosition() {
         return position;
     }
 
     public MapDirection getDirection() {
         return direction;
+    }
+
+    public void addObserver(IPositionChangeObserver observer){
+        observers.add(observer);
+    }
+
+
+
+    public void removeObserver(IPositionChangeObserver observer){
+        observers.remove(observer);
+    }
+
+    private void positionChanged(Vector2d oldPosition, Vector2d newPosition){
+        observers.forEach(observer -> observer.positionChanged(oldPosition,newPosition));
     }
 
 }
