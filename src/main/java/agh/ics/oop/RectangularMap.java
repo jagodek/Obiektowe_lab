@@ -9,11 +9,7 @@ public class RectangularMap extends AbstractWorldMap implements IWorldMap,IPosit
         this.height = height-1;
     }
 
-    /**public String toString(){
-        MapVisualizer mapa = new MapVisualizer(this);
-        String draw = mapa.draw(new Vector2d(0,0),new Vector2d(width,height));
-        return draw;
-    }*/
+
     @Override
     public Vector2d[] corners(){
         MapVisualizer mapaR = new MapVisualizer(this);

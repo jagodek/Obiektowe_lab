@@ -1,7 +1,7 @@
 package agh.ics.oop;
 import java.util.ArrayList;
 
-public class SimulationEngine implements IEngine{
+public class SimulationEngine implements IEngine,Runnable{
     private MoveDirection[] directions;
     private int noAnimals,noSeries;
     IWorldMap map;

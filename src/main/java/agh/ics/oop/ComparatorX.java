@@ -16,6 +16,7 @@ public class ComparatorX implements Comparator<IMapElement> {
         if(o2 instanceof Grass) {
             return 1;
         }
+        else
         return 0;
     }
 }

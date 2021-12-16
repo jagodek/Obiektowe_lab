@@ -1,4 +1,5 @@
 package agh.ics.oop;
+import static java.lang.System.in;
 import static java.lang.System.out;
 
 import java.util.ArrayList;
@@ -12,6 +13,7 @@ public class Animal implements IMapElement{
 
 
 
+
     public Animal(IWorldMap map){
         this(map,new Vector2d(2,2));
     }
@@ -21,6 +23,7 @@ public class Animal implements IMapElement{
         this.position = initialPosition;
         this.direction = MapDirection.NORTH;
     }
+
 
 
     public String toString() {
@@ -58,6 +61,26 @@ public class Animal implements IMapElement{
         }
 
     }
+
+    @Override
+    public String looks(){
+        switch (direction){
+            case NORTH -> {
+                return "up";
+            }
+            case EAST -> {
+                return "right";
+            }
+            case SOUTH -> {
+                return "down";
+            }
+            case WEST -> {
+                return "left";
+            }
+        }
+        return "";
+    }
+
     @Override
     public Vector2d getPosition() {
         return position;

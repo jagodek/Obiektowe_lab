@@ -6,7 +6,7 @@ import java.util.ArrayList;
 
 public class GrassField extends AbstractWorldMap implements IWorldMap,IPositionChangeObserver {
     private int noGrass;
-
+    private MapBoundary boundary = new MapBoundary(this);
 
     public GrassField(int noGrass){
         this.noGrass = noGrass;
@@ -26,28 +26,9 @@ public class GrassField extends AbstractWorldMap implements IWorldMap,IPositionC
         }
     }
 
-    /**public String toString(){
-        MapVisualizer mapa = new MapVisualizer(this);
-        Vector2d prawyGorny = new Vector2d(0,0);
-        Vector2d lewyDolny  = new Vector2d(0,0);
-        for(Grass grass: grasses){
-            prawyGorny = prawyGorny.upperRight(grass.getPosition());
-            lewyDolny = lewyDolny.lowerLeft(grass.getPosition());
-        }
-        for(Animal animal:animals){
-            prawyGorny = prawyGorny.upperRight(animal.getPosition());
-            lewyDolny = lewyDolny.lowerLeft(animal.getPosition());
-        }
-
-        String draw = mapa.draw(lewyDolny,prawyGorny);
-        return draw;
-    }*/
     @Override
     public Vector2d[] corners(){
-        Vector2d lowerLeft = new Vector2d(boundary.xAxis.first().getPosition().getX(),boundary.yAxis.first().getPosition().getY());
-        Vector2d upperRight = new Vector2d(boundary.xAxis.last().getPosition().getX(),boundary.yAxis.last().getPosition().getY());
-        Vector2d[] output = {lowerLeft,upperRight};
-        return output;
+        return boundary.getCorners();
     }
 
 
@@ -73,8 +54,9 @@ public class GrassField extends AbstractWorldMap implements IWorldMap,IPositionC
     @Override
     public boolean place(Animal animal){
         Boolean b = super.place(animal);
-        if(b==true){
+        if(b){
             boundary.addElement(animal);
+            animal.addObserver(boundary);
             return true;
         }
         return false;

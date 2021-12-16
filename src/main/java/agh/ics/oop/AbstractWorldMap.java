@@ -9,8 +9,8 @@ import java.util.Vector;
 abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObserver{
     protected int width,height;
     protected Map<Vector2d, Animal> animals = new LinkedHashMap<>();
-    protected  Map<Vector2d, Grass> grasses = new LinkedHashMap<>();
-    protected MapBoundary boundary = new MapBoundary();
+    protected Map<Vector2d, Grass> grasses = new LinkedHashMap<>();
+
 
 
 
@@ -21,15 +21,13 @@ abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObserver{
 
     }
 
-    public Vector2d[] corners(){
-        return null;
-    }
+    public abstract Vector2d[] corners();
 
 
 
     public boolean place(Animal animal) {
         Vector2d pos = animal.getPosition();
-        if(animals.containsKey(pos)){
+        if(!canMoveTo(pos)){
             throw new IllegalArgumentException("brak możliwości dodania zwierzęcia na tą pozycję");
         }
         animals.put(pos,animal);
@@ -55,10 +53,8 @@ abstract class AbstractWorldMap implements IWorldMap,IPositionChangeObserver{
     @Override
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition){
         Animal animal = animals.get(oldPosition);
-        boundary.positionChanged(oldPosition,newPosition);
         animals.remove(oldPosition);
         animals.put(newPosition,animal);
-        boundary.addElement(animal);
     }
 
 

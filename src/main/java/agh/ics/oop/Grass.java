@@ -14,4 +14,8 @@ public class Grass implements IMapElement{
         return "*";
     }
 
+    public String looks(){
+        return "grass";
+    }
+
 }
