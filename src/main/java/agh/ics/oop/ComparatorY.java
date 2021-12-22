@@ -1,20 +1,26 @@
 package agh.ics.oop;
 
+import javafx.util.Pair;
+
 import java.util.Comparator;
 
-public class ComparatorY implements Comparator<IMapElement> {
+public class ComparatorY implements Comparator<Pair<Vector2d,Class>> {
     @Override
-    public int compare(IMapElement o1, IMapElement o2) {
-        if(o1.getPosition().getY()!=o2.getPosition().getY()){
-        return Integer.compare(o1.getPosition().getY(),o2.getPosition().getY());
+    public int compare(Pair<Vector2d,Class> o1, Pair<Vector2d,Class> o2) {
+        if(o1.getKey().getY()!=o2.getKey().getY()){
+            return Integer.compare(o1.getKey().getY(),o2.getKey().getY());
         }
-        if(o1.getPosition().getX()!=o2.getPosition().getX()){
-            return Integer.compare(o1.getPosition().getX(),o2.getPosition().getX());
+        if(o1.getKey().getX()!=o2.getKey().getX()){
+            return Integer.compare(o1.getKey().getX(),o2.getKey().getX());
         }
-        if(o2 instanceof Grass) {
+        if((o1.getValue()==Animal.class)&&(o2.getValue()==Grass.class)){
             return 1;
         }
-        else
+        if((o1.getValue()==Grass.class)&&(o2.getValue()==Animal.class)){
+            return -1;
+        }
         return 0;
     }
+
+
 }

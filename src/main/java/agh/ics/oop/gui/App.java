@@ -61,7 +61,7 @@ public class App extends javafx.application.Application implements IPositionChan
 
 
         MoveDirection[] directions = new OptionsParser().parse(instructions);
-        map = new GrassField(10);
+        map = new GrassField(1);
         Vector2d[] positions = {new Vector2d(2, 2), new Vector2d(3, 4)};
         engine = new GrassSimulationEngine(directions, map, positions,this);
         engineThread = new Thread(engine);

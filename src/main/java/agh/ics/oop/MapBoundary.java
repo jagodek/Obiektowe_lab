@@ -1,16 +1,15 @@
 package agh.ics.oop;
+import javafx.util.Pair;
+
 import java.util.*;
-import static java.lang.System.out;
-
-
 
 
 public class MapBoundary implements IPositionChangeObserver {
-    private Comparator comparatorX = new ComparatorX();
-    private SortedSet<IMapElement> xAxis = new TreeSet(comparatorX);
+    private Comparator<Pair<Vector2d,Class>> comparatorX = new ComparatorX();
+    private SortedSet<Pair<Vector2d,Class>> xAxis = new TreeSet(comparatorX);
 
-    private Comparator comparatorY = new ComparatorY();
-    private SortedSet<IMapElement> yAxis = new TreeSet(comparatorY);
+    private Comparator<Pair<Vector2d,Class>> comparatorY = new ComparatorY();
+    private SortedSet<Pair<Vector2d,Class>> yAxis = new TreeSet(comparatorY);
 
     private GrassField map;
 
@@ -21,25 +20,27 @@ public class MapBoundary implements IPositionChangeObserver {
 
     @Override
     public void positionChanged(Vector2d oldPosition, Vector2d newPosition) {
-            Animal animal = map.animals.get(newPosition);
-                xAxis.remove(animal);
-                yAxis.remove(animal);
-                addElement(animal);
-
-
+        Animal animalNow = map.animals.get(newPosition);
+        removeElement(oldPosition);
+        addElement(animalNow);
 
     }
 
     public void addElement(IMapElement element){
+        xAxis.add(new Pair(element.getPosition(),element.getClass()));
+        yAxis.add(new Pair(element.getPosition(),element.getClass()));
+    }
 
-        xAxis.add(element);
-        yAxis.add(element);
+    public void removeElement(Vector2d key){
+        Pair<Vector2d,Class> p= new Pair<>(key,Animal.class);
+        xAxis.remove(p);
+        yAxis.remove(p);
     }
 
 
     public Vector2d[] getCorners(){
-        Vector2d lowerLeft = new Vector2d(xAxis.first().getPosition().getX(),yAxis.first().getPosition().getY());
-        Vector2d upperRight = new Vector2d(xAxis.last().getPosition().getX(),yAxis.last().getPosition().getY());
+        Vector2d lowerLeft = new Vector2d(xAxis.first().getKey().getX(),yAxis.first().getKey().getY());
+        Vector2d upperRight = new Vector2d(xAxis.last().getKey().getX(),yAxis.last().getKey().getY());
         Vector2d[] output = {lowerLeft,upperRight};
         return output;
     }
